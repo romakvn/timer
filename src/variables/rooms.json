@@ -1,0 +1,32 @@
+{
+    "rooms": [
+        {
+            "id": 1,
+            "isVIP": false
+        },
+        {
+            "id": 2,
+            "isVIP": false
+        },
+        {
+            "id": 3,
+            "isVIP": false
+        },
+        {
+            "id": 4,
+            "isVIP": false
+        },
+        {
+            "id": 5,
+            "isVIP": false
+        },
+        {
+            "id": 6,
+            "isVIP": true
+        },
+        {
+            "id": 7,
+            "isVIP": true
+        }
+    ]
+}

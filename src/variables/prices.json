@@ -1,0 +1,12 @@
+{
+    "prices": {
+        "DEFAULT": {
+            "2_players": "6",
+            "4_players": "10"
+        },
+        "VIP": {
+            "2_players": "8",
+            "4_players": "16"
+        }
+    }
+}
