@@ -3,33 +3,38 @@ import { Button, ButtonGroup } from "react-bootstrap"
 
 const Timer = ({args}) => {
     const [count, setCount] = useState(0) 
-    const countRef = useRef(1)
-
+    
     const [start, setStart] = useState(false)
     const [stop, setStop] = useState(true)
     const [reset, setReset] = useState(true)
     const [add, setAdd] = useState(true)
 
     const [running, setRunning] = useState(false)
+
+    const [end, setEnd] = useState(null)
+
+    const [mins, setMins] = useState(null)
     
     useEffect(() => {
         const interval = setInterval(() => {
             if (running) {
                 setCount(count => count + 1)
-                countRef.current = countRef.current + 1
+                args.countRef.current = args.countRef.current + 1
 
-                if (countRef.current >= args.time) {
+                if (args.countRef.current > mins) {
                     args.alert(true)     
+                } else {
+                    args.alert(false)
                 }
 
-                args.total(Math.floor((countRef.current - 1) / 30) * args.price)
+                args.total(Math.floor((args.countRef.current - 1) / (30 * 60)) * args.price)
             } else {
                 clearInterval(interval)
             }
         }, 1000)
 
         return () => clearInterval(interval)
-    }, [running])
+    }, [running, mins])
 
     const dateHelper = (date) => {
         let h = date.getHours()
@@ -41,6 +46,8 @@ const Timer = ({args}) => {
     }
 
     const startTimer = () => {
+        console.log(args.price)
+        console.log("---------------------------")
         const startDate = new Date()
         const endDate = new Date()
         endDate.setSeconds(endDate.getSeconds() + args.time)
@@ -48,11 +55,16 @@ const Timer = ({args}) => {
         args.start(dateHelper(startDate))
         args.end(dateHelper(endDate))
 
+        setEnd(endDate)
+
         setRunning(true)
         setReset(true)
         setStart(true)
         setStop(false)
         setAdd(false)
+
+        setMins(args.time)
+        args.setDeff(false)
     }
 
     const stopTimer = () => {
@@ -64,12 +76,13 @@ const Timer = ({args}) => {
     const resetTimer = () => {
         setRunning(false)
         setCount(0)
-        countRef.current = 0
+        args.countRef.current = 0
         args.alert(false)
         setReset(true)
         setStart(false)
         setStop(true)
         setAdd(true)
+        args.setDeff(true)
     }
 
     const formatInput = () => {
@@ -105,14 +118,22 @@ const Timer = ({args}) => {
         return `${result.hours} : ${result.minutes} : ${result.seconds}`
     }
 
+    const addMins = () => {
+        let endTime = new Date(end)
+        endTime.setSeconds(endTime.getSeconds() + 30 * 60)
+        setEnd(endTime)
+        args.end(dateHelper(endTime))
+        setMins(mins + 30 * 60)
+    }
+
     return (
         <div>
-            <h2>{formatInput()}</h2>
+            <h2>{args.deff ? "00 : 00 : 00" :formatInput()}</h2>
             <ButtonGroup>
                 <Button disabled={start} variant="outline-success" onClick={startTimer} style={{marginRight: '5px'}}>start</Button>
                 <Button disabled={stop} variant="outline-warning" onClick={stopTimer}>stop</Button>
                 <Button disabled={reset} variant="outline-danger" onClick={resetTimer} style={{marginLeft: '5px'}}>reset</Button>
-                <Button disabled={add} variant="outline-danger" onClick={resetTimer} style={{marginLeft: '5px'}}>+30min</Button>
+                <Button disabled={add} variant="outline-danger" onClick={addMins} style={{marginLeft: '5px'}}>+30min</Button>
             </ButtonGroup>
         </div>
     )
