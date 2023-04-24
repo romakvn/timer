@@ -52,6 +52,7 @@ const Frame = ({args}) => {
         }
 
         createRecord(payload)
+        args.setTotal(args.total + total)
         resetToDefault()
     }
 

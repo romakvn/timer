@@ -21,7 +21,10 @@ function App() {
       <Container>
         <h1>Header</h1>
         <h2>Total: {total}</h2>
-        <Display />
+        <Display args={{
+          "total": total,
+          "setTotal": setTotal
+        }} />
       </Container>
     </div>
   );

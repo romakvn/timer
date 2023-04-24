@@ -5,7 +5,7 @@ import roomService from '../services/roomService';
 import priceService from '../services/priceService';
 import { findPrice } from '../utils/prices';
 
-const Display = () => {
+const Display = ({args}) => {
     const [rooms, setRooms] = useState(null)
     const [prices, setPrices] = useState(null)
 
@@ -40,7 +40,9 @@ const Display = () => {
                         "price": {
                             "players_2": x.isVip == 1 ? findPrice(prices, 2, "VIP") : findPrice(prices, 2, "DEFAULT"),
                             "players_4": x.isVip == 1 ? findPrice(prices, 4, "VIP") : findPrice(prices, 4, "DEFAULT")
-                        }
+                        },
+                        "setTotal": args.setTotal,
+                        "total": args.total
                     }}/>
                 </Col>): <></>
         }</Row>
