@@ -27,7 +27,7 @@ const Timer = ({args}) => {
                     args.alert(false)
                 }
 
-                args.total(Math.floor((args.countRef.current - 1) / (30 * 60)) * args.price)
+                args.total(Math.floor((args.countRef.current - 1) / (15 * 60)) * args.price)
             } else {
                 clearInterval(interval)
             }
